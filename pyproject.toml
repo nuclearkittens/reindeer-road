@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "pgj2021"
+version = "0.1.0"
+description = ""
+authors = ["meri saynatkari <meri.saynatkari@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+pygame = "^2.0.1"
+
+[tool.poetry.dev-dependencies]
+pytest = "^6.2.4"
+pylint = "^2.9.3"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
