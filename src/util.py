@@ -11,7 +11,7 @@ def initialise_display():
 def load_anim_frames(dir):
     temp = []
     fnames = [str(i+1) + '.png' for i in range(len(os.listdir(dir)))]
-    print(fnames)
+    # print(fnames)
     # for i in range(len(os.listdir(dir))):
     #     fname = str(i+1) + '.png'
     #     img = pg.image.load(os.path.join(dir, fname)).convert_alpha()
