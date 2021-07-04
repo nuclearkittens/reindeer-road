@@ -2,7 +2,7 @@ import sys
 import os
 import pygame as pg
 
-from config import SCREEN_W, SCREEN_H, SCREEN_CAPTION, SKY_COLOUR
+from config import SCREEN_W, SCREEN_H, SCREEN_CAPTION, SKY_COLOUR, MUSIC
 from util import initialise_display, check_events
 from view import View
 from car import Car
@@ -15,12 +15,14 @@ class MainGame:
         self._display = initialise_display()
         self._view = View(2)
         self._car = Car()
+        self._audio = pg.mixer.music.load(MUSIC)
 
         self.look_out = False
         self.car = True
 
     def game_loop(self):
         running = True
+        pg.mixer.music.play(loops=-1)
 
         while running:
             running, clicked = check_events()

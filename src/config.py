@@ -12,3 +12,5 @@ SCREEN_CAPTION = 'reindeer-road'
 
 SKY_COLOUR = (216, 176, 168)
 CAR_COLOUR = (124, 108, 85)
+
+MUSIC = os.path.join(DIRNAME, 'audio/audio1.ogg')
