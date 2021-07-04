@@ -15,13 +15,13 @@ class MainGame:
         self._display = initialise_display()
         self._view = View(2)
         self._car = Car()
-        self._audio = pg.mixer.music.load(MUSIC)
 
         self.look_out = False
         self.car = True
 
     def game_loop(self):
         running = True
+        pg.mixer.music.load(MUSIC)
         pg.mixer.music.play(loops=-1)
 
         while running:
@@ -44,6 +44,8 @@ class MainGame:
 
         self.car = False
         self.view = False
+        pg.mixer.music.stop()
+        pg.mixer.music.unload()
         pg.quit()
         sys.exit()
 
