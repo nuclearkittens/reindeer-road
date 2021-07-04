@@ -3,13 +3,14 @@ import pygame as pg
 
 from random import uniform
 
-from config import DIRNAME, FRAME_DIR, SCREEN_W
-from util import load_anim_frames
+from config import DIRNAME, FRAME_DIR, SCREEN_W, SCREEN_H
+from util import load_anim_frames, Button
 
 class View:
     def __init__(self, idx):
         self._scenery = self._load_view_imgs(idx)
         self._frame = pg.image.load(FRAME_DIR)
+        self._button = Button('back', (0, SCREEN_H - 200))
 
     def _load_view_imgs(self, idx):
         temp = {}
@@ -35,3 +36,8 @@ class View:
             if attr[1].right <= 0:
                 attr[1].x = 0
         display.blit(self._frame, (0,0))
+
+    def go_back(self, display):
+        back = self._button.update()
+        self._button.draw(display)
+        return True if back else False

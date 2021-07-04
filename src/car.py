@@ -2,31 +2,48 @@ import os
 import math
 import pygame as pg
 
-from util import load_anim_frames
+from util import load_anim_frames, Button
 from config import CAR_DIR, SCREEN_W, SCREEN_H
 
 class Car:
     def __init__(self):
-        self._bg = pg.image.load(os.path.join(CAR_DIR, 'bg.png')).convert_alpha()
+        self._bg = pg.image.load(os.path.join(CAR_DIR, 'bg_back.png')).convert_alpha()
+        self._bg_mid = pg.image.load(os.path.join(CAR_DIR, 'bg_mid.png')).convert_alpha()
         self._bg_front = pg.image.load(os.path.join(CAR_DIR, 'bg_front.png')).convert_alpha()
         self._road = AnimatedEntity(os.path.join(CAR_DIR, 'road'))
         self._mum = AnimatedEntity(os.path.join(CAR_DIR, 'mum'))
-        self._dad_static = StaticEntity(os.path.join(CAR_DIR, 'dad.png'))
+        # self._dad_static = StaticEntity(os.path.join(CAR_DIR, 'dad.png'))
         self._dad_anim = AnimatedEntity(os.path.join(CAR_DIR, 'dad'))
         self._hand = PlayerHand()
 
         self._group = pg.sprite.Group(
-            self._mum, self._dad_static, self._dad_anim)
+            self._mum, self._dad_anim)
 
-    def update(self, display):
+        self._buttons = pg.sprite.Group()
+        self.create_buttons()
+
+
+    def update(self, display, clicked):
         display.blit(self._bg, (0, 0))
         self._road.update()
         self._road.draw(display)
+        display.blit(self._bg_mid, (0, 0))
         self._group.update()
         self._group.draw(display)
         display.blit(self._bg_front, (0, 0))
         self._hand.update()
         self._hand.draw(display)
+
+        for button in self._buttons:
+            action = button.update()
+            button.draw(display)
+            if clicked and action:
+                return action
+
+        return False
+
+    def create_buttons(self):
+        self._buttons.add(Button('window', (1800, 500)))
 
 
 class AnimatedEntity(pg.sprite.Sprite):
@@ -75,7 +92,7 @@ class PlayerHand(pg.sprite.Sprite):
     def _rotate(self):
         correction_angle = 90
         mouse_x, mouse_y = pg.mouse.get_pos()
-        dx, dy = mouse_x - self.rect.centerx, mouse_y - self.rect.centery
+        dx, dy = mouse_x - (self.rect.x + self.rect.width), mouse_y - self.rect.centery
         # angle = int((180 / math.pi) * -math.atan2(y, x))
         angle = math.degrees(math.atan2(-dy, dx)) - correction_angle
         self.image = pg.transform.rotate(self._og_image, angle)
